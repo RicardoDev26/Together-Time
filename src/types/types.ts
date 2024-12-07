@@ -17,3 +17,9 @@ export interface ItemEvent {
     value: TypeEvent
 }
 
+
+export enum StateSlice {
+    NONE = "NONE",
+    OPEN = "OPEN",
+    CLOSE = "CLOSE"
+}

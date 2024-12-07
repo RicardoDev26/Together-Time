@@ -1,0 +1,198 @@
+
+const ImageProfile = require('../assets/ImageProfileOne.png')
+
+export const togetherUsers = [
+    {
+        id: 1,
+        name: "Ricardo",
+        lastname: "Luna",
+        email: "Ricardo@Together.com",
+        phone: 7651154675,
+        username: "Richidark",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 2,
+        name: "María",
+        lastname: "González",
+        email: "MariaG@Together.com",
+        phone: 7651154676,
+        username: "MariaG",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 3,
+        name: "Carlos",
+        lastname: "Pérez",
+        email: "CarlosP@Together.com",
+        phone: 7651154677,
+        username: "CarlosP",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 4,
+        name: "Ana",
+        lastname: "Martínez",
+        email: "AnaM@Together.com",
+        phone: 7651154678,
+        username: "AnaM",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 5,
+        name: "Jorge",
+        lastname: "Ramírez",
+        email: "JorgeR@Together.com",
+        phone: 7651154679,
+        username: "JorgeR",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 6,
+        name: "Sofía",
+        lastname: "Hernández",
+        email: "SofiaH@Together.com",
+        phone: 7651154680,
+        username: "SofiaH",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 7,
+        name: "Luis",
+        lastname: "Morales",
+        email: "LuisM@Together.com",
+        phone: 7651154681,
+        username: "LuisM",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 8,
+        name: "Valeria",
+        lastname: "Torres",
+        email: "ValeriaT@Together.com",
+        phone: 7651154682,
+        username: "ValeriaT",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 9,
+        name: "Gabriel",
+        lastname: "Cruz",
+        email: "GabrielC@Together.com",
+        phone: 7651154683,
+        username: "GabrielC",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 10,
+        name: "Isabella",
+        lastname: "Ortiz",
+        email: "IsabellaO@Together.com",
+        phone: 7651154684,
+        username: "IsabellaO",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 11,
+        name: "Mateo",
+        lastname: "Flores",
+        email: "MateoF@Together.com",
+        phone: 7651154685,
+        username: "MateoF",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 12,
+        name: "Fernanda",
+        lastname: "Chávez",
+        email: "FernandaC@Together.com",
+        phone: 7651154686,
+        username: "FernandaC",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 13,
+        name: "Diego",
+        lastname: "Castillo",
+        email: "DiegoC@Together.com",
+        phone: 7651154687,
+        username: "DiegoC",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 14,
+        name: "Regina",
+        lastname: "López",
+        email: "ReginaL@Together.com",
+        phone: 7651154688,
+        username: "ReginaL",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 15,
+        name: "Emilio",
+        lastname: "Gutiérrez",
+        email: "EmilioG@Together.com",
+        phone: 7651154689,
+        username: "EmilioG",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+    {
+        id: 16,
+        name: "Camila",
+        lastname: "Vargas",
+        email: "CamilaV@Together.com",
+        phone: 7651154690,
+        username: "CamilaV",
+        photo: ImageProfile,
+        gender: "Male",
+        location: "Alamo",
+        joined: "May 2026"
+    },
+];
+        

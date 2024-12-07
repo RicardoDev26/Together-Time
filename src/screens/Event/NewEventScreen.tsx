@@ -2,6 +2,7 @@ import React from "react";
 import { StyledView, StyledText, StyledTouchableOpacity } from "../../shared/styled";
 import IconArrowBack from "../../components/Icons/IconArrowBack";
 import { useNavigation } from "@react-navigation/native";
+import ButtonCreateEvent from "../../components/Buttons/ButtonCreateEvent";
 
 
 
@@ -17,6 +18,7 @@ const NewEventScreen = () => {
                     <IconArrowBack />
                 </StyledTouchableOpacity>
             </StyledView>
+            <ButtonCreateEvent />
         </StyledView>
     )
 }

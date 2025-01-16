@@ -1,0 +1,86 @@
+
+¡Entendido! Gracias por detallar la funcionalidad. Con esta información, podemos estructurar la base de datos de manera adecuada para manejar los eventos, usuarios, invitaciones y chats.
+
+Funcionalidades clave:
+Usuarios: Cada usuario tendrá un perfil único con detalles como nombre, correo, teléfono, etc.
+Eventos: Los eventos tendrán detalles como nombre, tipo, fecha, hora, ubicación y coordenadas, además de los usuarios invitados.
+Invitaciones: Los usuarios podrán recibir invitaciones a eventos y podrán aceptar o rechazar asistir.
+Amigos: Los usuarios podrán agregar amigos dentro de la app.
+Chats: Los usuarios podrán chatear con sus amigos dentro de la app.
+Estructura de la Base de Datos
+1. Usuarios
+Contendrá la información personal de cada usuario.
+
+sql
+Copiar código
+CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,  -- Identificador único
+    nombre VARCHAR(255) NOT NULL,
+    apellido VARCHAR(255),
+    correo VARCHAR(255) UNIQUE NOT NULL,
+    telefono VARCHAR(15),
+    username VARCHAR(255) UNIQUE NOT NULL,  -- Nombre de usuario único
+    foto VARCHAR(255),  -- Ruta de la foto de perfil
+    genero VARCHAR(10),
+    ubicacion VARCHAR(255),  -- Ciudad o lugar de residencia
+    coordenadas GEOMETRY(Point, 4326),  -- Coordenadas geográficas (lat, long)
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    contrasena VARCHAR(255) NOT NULL  -- Contraseña encriptada
+);
+2. Eventos
+Cada evento tendrá un nombre, tipo, fecha, hora, ubicación, coordenadas y una lista de invitados.
+
+sql
+Copiar código
+CREATE TABLE eventos (
+    id SERIAL PRIMARY KEY,  -- Identificador único para cada evento
+    nombre VARCHAR(255) NOT NULL,  -- Nombre del evento
+    tipo VARCHAR(100),  -- Tipo de evento (por ejemplo, "Reunión", "Cumpleaños")
+    fecha DATE NOT NULL,  -- Fecha del evento
+    hora TIME NOT NULL,  -- Hora del evento
+    ubicacion VARCHAR(255),  -- Ubicación descriptiva del evento (ej. restaurante)
+    coordenadas GEOMETRY(Point, 4326),  -- Coordenadas geográficas del evento (lat, long)
+    creador_id INTEGER REFERENCES usuarios(id) ON DELETE CASCADE,  -- ID del creador del evento
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+3. Invitaciones
+Esta tabla gestionará las invitaciones que los usuarios envían para asistir a eventos. Los usuarios pueden aceptar o rechazar.
+
+sql
+Copiar código
+CREATE TABLE invitaciones (
+    id SERIAL PRIMARY KEY,  -- Identificador único de la invitación
+    evento_id INTEGER REFERENCES eventos(id) ON DELETE CASCADE,  -- Evento al que se invita
+    invitado_id INTEGER REFERENCES usuarios(id) ON DELETE CASCADE,  -- Usuario invitado
+    estado VARCHAR(20) CHECK (estado IN ('pendiente', 'aceptada', 'rechazada')),  -- Estado de la invitación
+    fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Fecha en que se envió la invitación
+);
+4. Amigos
+Tabla que maneja las relaciones de amistad entre los usuarios.
+
+sql
+Copiar código
+CREATE TABLE amigos (
+    id SERIAL PRIMARY KEY,  -- Identificador único de la relación
+    usuario_id INTEGER REFERENCES usuarios(id) ON DELETE CASCADE,  -- Usuario que agrega a otro
+    amigo_id INTEGER REFERENCES usuarios(id) ON DELETE CASCADE,  -- Usuario agregado como amigo
+    fecha_amigos TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Fecha en que se hizo la amistad
+);
+5. Chats
+Los usuarios pueden tener conversaciones privadas dentro de la app.
+
+sql
+Copiar código
+CREATE TABLE chats (
+    id SERIAL PRIMARY KEY,  -- Identificador único del chat
+    emisor_id INTEGER REFERENCES usuarios(id) ON DELETE CASCADE,  -- Usuario que envía el mensaje
+    receptor_id INTEGER REFERENCES usuarios(id) ON DELETE CASCADE,  -- Usuario que recibe el mensaje
+    mensaje TEXT NOT NULL,  -- Mensaje del chat
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Fecha en que se envió el mensaje
+);
+Relación entre las tablas:
+Usuarios: cada usuario tiene un perfil con detalles personales.
+Eventos: cada evento tiene un creador (usuario) y puede tener muchos invitados (usuarios).
+Invitaciones: se utiliza para gestionar las invitaciones entre usuarios para un evento específico, con su estado (pendiente, aceptada, rechazada).
+Amigos: los usuarios pueden agregarse como amigos entre sí.
+Chats: se guarda el historial de los mensajes entre amigos dentro de la app.

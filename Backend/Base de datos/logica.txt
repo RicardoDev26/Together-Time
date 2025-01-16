@@ -1,0 +1,100 @@
+Tu base de datos de eventos debe reflejar toda la información necesaria para gestionar los eventos, los usuarios invitados, y permitir la organización y filtrado por fecha. Teniendo en cuenta lo que discutimos, aquí te muestro cómo quedaría la tabla de eventos junto con algunas tablas adicionales que necesitas (como las de invitaciones y amigos):
+
+1. Tabla de eventos
+Esta tabla contiene todos los detalles de un evento, como nombre, tipo, fecha, hora, ubicación y coordenadas.
+
+sql
+Copiar código
+CREATE TABLE eventos (
+    id SERIAL PRIMARY KEY,  -- Identificador único para cada evento
+    nombre VARCHAR(255) NOT NULL,  -- Nombre del evento
+    tipo VARCHAR(100),  -- Tipo de evento (por ejemplo, "Reunión", "Cumpleaños")
+    fecha DATE NOT NULL,  -- Fecha del evento
+    hora TIME NOT NULL,  -- Hora del evento
+    ubicacion VARCHAR(255),  -- Ubicación descriptiva del evento (ej. restaurante)
+    coordenadas GEOMETRY(Point, 4326),  -- Coordenadas geográficas del evento (lat, long)
+    creador_id INTEGER REFERENCES usuarios(id) ON DELETE CASCADE,  -- ID del creador del evento
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Fecha en que se creó el evento
+);
+2. Tabla de invitaciones
+La tabla de invitaciones gestionará las invitaciones que se envían a los usuarios para los eventos. Contendrá información sobre el estado de la invitación (pendiente, aceptada, rechazada).
+
+sql
+Copiar código
+CREATE TABLE invitaciones (
+    id SERIAL PRIMARY KEY,  -- Identificador único de la invitación
+    evento_id INTEGER REFERENCES eventos(id) ON DELETE CASCADE,  -- Evento al que se invita
+    invitado_id INTEGER REFERENCES usuarios(id) ON DELETE CASCADE,  -- Usuario invitado
+    estado VARCHAR(20) CHECK (estado IN ('pendiente', 'aceptada', 'rechazada')),  -- Estado de la invitación
+    fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Fecha en que se envió la invitación
+);
+3. Tabla de amigos
+Esta tabla manejará las relaciones de amistad entre los usuarios, permitiendo que se conviertan en amigos dentro de la aplicación para enviar invitaciones y chatear.
+
+sql
+Copiar código
+CREATE TABLE amigos (
+    id SERIAL PRIMARY KEY,  -- Identificador único de la relación
+    usuario_id INTEGER REFERENCES usuarios(id) ON DELETE CASCADE,  -- Usuario que agrega a otro
+    amigo_id INTEGER REFERENCES usuarios(id) ON DELETE CASCADE,  -- Usuario agregado como amigo
+    fecha_amigos TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- Fecha en que se hizo la amistad
+);
+Consultas y lógica de negocio para las vistas:
+Con la estructura de la base de datos como la he definido, ya puedes gestionar las vistas de eventos de la siguiente forma:
+
+Filtrar eventos por día, semana, mes o año:
+Por ejemplo, si un usuario quiere ver los eventos de un día específico (como hoy):
+
+sql
+Copiar código
+SELECT * FROM eventos WHERE fecha = CURRENT_DATE;
+Filtrar eventos activos:
+Eventos que aún no han pasado (es decir, tienen una fecha futura o son en el día actual pero aún no han comenzado):
+
+sql
+Copiar código
+SELECT * FROM eventos 
+WHERE fecha > CURRENT_DATE 
+   OR (fecha = CURRENT_DATE AND hora > CURRENT_TIME);
+Filtrar eventos pasados:
+Eventos que ya han ocurrido (es decir, tienen una fecha pasada o son en el día actual pero ya han pasado):
+
+sql
+Copiar código
+SELECT * FROM eventos 
+WHERE fecha < CURRENT_DATE 
+   OR (fecha = CURRENT_DATE AND hora < CURRENT_TIME);
+Consultar las invitaciones de un usuario:
+Para mostrar las invitaciones pendientes de un usuario, puedes hacer una consulta como:
+
+sql
+Copiar código
+SELECT e.* 
+FROM eventos e
+JOIN invitaciones i ON e.id = i.evento_id
+WHERE i.invitado_id = ? AND i.estado = 'pendiente';
+Gestionar los eventos creados por un usuario:
+Para mostrar todos los eventos creados por un usuario, puedes hacer una consulta como:
+
+sql
+Copiar código
+SELECT * FROM eventos WHERE creador_id = ?;
+Consultar los eventos de amigos:
+Si un usuario quiere ver eventos en los que ha sido invitado por sus amigos, puedes hacer algo como esto (suponiendo que el ID del usuario es ?):
+
+sql
+Copiar código
+SELECT e.* 
+FROM eventos e
+JOIN invitaciones i ON e.id = i.evento_id
+JOIN amigos a ON (i.invitado_id = a.amigo_id AND a.usuario_id = ?)
+WHERE i.estado = 'aceptada';
+Resumen
+La base de datos quedaría estructurada de la siguiente manera:
+
+Eventos: Almacena todos los eventos con la fecha, hora, ubicación y el usuario que lo creó.
+Invitaciones: Gestiona las invitaciones que los usuarios reciben para los eventos, con un campo de estado (pendiente, aceptada, rechazada).
+Amigos: Maneja las relaciones de amistad entre los usuarios, lo que permite que los usuarios se agreguen y reciban invitaciones para eventos.
+Con esta estructura y las consultas anteriores, podrás ofrecer una experiencia fluida de gestión de eventos, invitaciones y visualización por diferentes rangos de tiempo (día, semana, mes, año) dentro de tu aplicación.
+
+Si tienes alguna pregunta o necesitas más detalles sobre alguna parte, ¡avísame! 😊
